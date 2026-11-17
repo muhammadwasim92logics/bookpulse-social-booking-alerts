@@ -1,0 +1,122 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block title %}Social Media Analytics — Renowned Homes{% endblock %}
+{% block header_title %}Social Media Analytics{% endblock %}
+{% block header_subtitle %}Video-level performance and booking attribution across connected channels{% endblock %}
+
+{% block main_content %}
+<!-- Connected Accounts Cards -->
+<div class="row g-3 mb-4">
+  {% for acc in accounts %}
+  <div class="col-md-4">
+    <div class="kpi-card">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <span class="badge rounded-pill bg-navy text-gold fw-bold">{{ acc.get_platform_display }}</span>
+        {% if acc.connection_status == 'connected' %}
+          <span class="badge-confirmed">Connected</span>
+        {% else %}
+          <span class="badge-pending">{{ acc.get_connection_status_display }}</span>
+        {% endif %}
+      </div>
+      <div class="fw-bold text-navy fs-5 mb-1">{{ acc.display_name }}</div>
+      <div class="small text-muted">
+        Last synced: {{ acc.last_sync_at|date:"d M Y, H:i"|default:"Never" }}
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div class="col-12">
+    <div class="alert alert-info">No social accounts connected yet.</div>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- Video Analytics Table -->
+<div class="bg-white rounded-3 border shadow-sm p-4 mb-4">
+  <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+    <div>
+      <h5 class="font-serif fw-bold text-navy mb-0">Video Performance & Conversion Attribution</h5>
+      <small class="text-muted">Metrics sourced through official platform APIs</small>
+    </div>
+
+    <div class="d-flex gap-2">
+      <!-- Platform Filter Tabs -->
+      <div class="btn-group btn-group-sm">
+        <a href="?platform=all" class="btn {% if platform_filter == 'all' %}btn-gold{% else %}btn-outline-secondary{% endif %}">All</a>
+        <a href="?platform=instagram" class="btn {% if platform_filter == 'instagram' %}btn-gold{% else %}btn-outline-secondary{% endif %}">Instagram</a>
+        <a href="?platform=youtube" class="btn {% if platform_filter == 'youtube' %}btn-gold{% else %}btn-outline-secondary{% endif %}">YouTube</a>
+        <a href="?platform=tiktok" class="btn {% if platform_filter == 'tiktok' %}btn-gold{% else %}btn-outline-secondary{% endif %}">TikTok</a>
+      </div>
+
+      <button type="button" id="btnSyncSocial" class="btn btn-sm btn-navy-outline">
+        🔄 Sync Now
+      </button>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-luxury table-hover mb-0">
+      <thead>
+        <tr>
+          <th>Platform</th>
+          <th>Video Content & Identifier</th>
+          <th>Views</th>
+          <th>Likes</th>
+          <th>Comments</th>
+          <th>Shares</th>
+          <th>Visits</th>
+          <th>Attributed Bookings</th>
+          <th>Conversion</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for v in videos %}
+        <tr>
+          <td>
+            <span class="badge rounded-pill bg-navy text-gold fw-bold">
+              {{ v.social_account.platform|upper }}
+            </span>
+          </td>
+          <td>
+            <div class="fw-semibold text-truncate" style="max-width: 300px;" title="{{ v.title_or_caption }}">
+              {{ v.title_or_caption }}
+            </div>
+            <small class="text-muted font-monospace">{{ v.platform_video_id }}</small>
+          </td>
+          <td class="fw-bold">{{ v.views }}</td>
+          <td>{{ v.likes }}</td>
+          <td>{{ v.comments }}</td>
+          <td>{{ v.shares }}</td>
+          <td>{{ v.attributed_visits }}</td>
+          <td>
+            <span class="badge-gold fw-bold">{{ v.attributed_bookings }} Bookings</span>
+          </td>
+          <td>
+            {% if v.attributed_visits > 0 %}
+              <span class="badge rounded-pill bg-success-subtle text-success border">
+                {% widthratio v.attributed_bookings v.attributed_visits 100 %}%
+              </span>
+            {% else %}
+              <span class="text-muted small">--</span>
+            {% endif %}
+          </td>
+          <td>
+            <a href="{{ v.video_url }}" target="_blank" class="btn btn-sm btn-outline-secondary py-0 px-2" title="View Source Video">
+              View
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="10" class="text-center py-5 text-muted">
+            No video metrics found for the selected platform filter.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+

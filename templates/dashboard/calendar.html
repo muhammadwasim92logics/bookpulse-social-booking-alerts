@@ -1,0 +1,74 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block title %}Calendar Schedule — Renowned Homes{% endblock %}
+{% block header_title %}Consultation Calendar{% endblock %}
+{% block header_subtitle %}Schedule view of upcoming confirmed and requested property buyer consultations{% endblock %}
+
+{% block main_content %}
+<div class="row g-4">
+  <div class="col-lg-8">
+    <div class="bg-white p-4 rounded-3 border shadow-sm">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="font-serif fw-bold text-navy mb-0">Upcoming Bookings Schedule</h5>
+        <div class="d-flex gap-2">
+          <span class="badge-confirmed">Confirmed</span>
+          <span class="badge-pending">Pending Review</span>
+        </div>
+      </div>
+
+      <div class="list-group list-group-flush">
+        {% for b in bookings %}
+        <div class="list-group-item px-0 py-3 d-flex flex-wrap justify-content-between align-items-center border-bottom">
+          <div class="d-flex align-items-center gap-3">
+            <div class="text-center p-2 rounded bg-light border" style="min-width: 65px;">
+              <div class="fw-bold text-navy fs-5 lh-1">{{ b.appointment_date|date:"d" }}</div>
+              <small class="text-uppercase text-muted" style="font-size: 0.72rem;">{{ b.appointment_date|date:"M" }}</small>
+            </div>
+            <div>
+              <div class="fw-bold text-navy">{{ b.full_name }}</div>
+              <div class="small text-muted">
+                ⏰ {{ b.appointment_time|time:"H:i" }} • {{ b.enquiry_type }}
+              </div>
+              <small class="font-monospace text-gold-dark">{{ b.booking_reference }}</small>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-center gap-2 mt-2 mt-md-0">
+            {% if b.status == 'confirmed' %}
+              <span class="badge-confirmed">Confirmed</span>
+            {% else %}
+              <span class="badge-pending">{{ b.get_status_display }}</span>
+            {% endif %}
+            <button class="btn btn-sm btn-outline-secondary" onclick="viewBookingDetails({{ b.id }})">Details</button>
+            <button class="btn btn-sm btn-outline-primary" onclick="openRescheduleModal({{ b.id }}, '{{ b.booking_reference }}', '{{ b.appointment_date|date:'Y-m-d' }}', '{{ b.appointment_time|time:'H:i' }}')">Reschedule</button>
+          </div>
+        </div>
+        {% empty %}
+        <div class="text-center py-5 text-muted">
+          No appointments scheduled for upcoming dates.
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="bg-white p-4 rounded-3 border shadow-sm mb-4">
+      <h5 class="font-serif fw-bold text-navy mb-2">Availability Guidelines</h5>
+      <p class="text-muted small">Standard rules currently applied across the booking engine:</p>
+      <ul class="list-unstyled small text-secondary">
+        <li class="mb-2">✓ <strong>Working Days:</strong> Monday through Saturday</li>
+        <li class="mb-2">✓ <strong>Hours:</strong> 09:00 – 18:00 (Europe/London)</li>
+        <li class="mb-2">✓ <strong>Slot Duration:</strong> 45 minutes + 15 min buffer</li>
+        <li class="mb-2">✓ <strong>Advance Booking:</strong> Up to 60 days in advance</li>
+        <li class="mb-2">✓ <strong>Notice Required:</strong> Minimum 2 hours notice</li>
+        <li class="mb-2">✓ <strong>Conflict Prevention:</strong> Atomic database locking</li>
+      </ul>
+      <div class="alert alert-info py-2 px-3 small mb-0">
+        Slots booked concurrently are automatically prevented from colliding.
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

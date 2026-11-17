@@ -1,0 +1,117 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block title %}Tracked Links Manager — Renowned Homes{% endblock %}
+{% block header_title %}Tracked Links Manager{% endblock %}
+{% block header_subtitle %}Create and manage tracked campaign links with UTM parameters for social posts and bios{% endblock %}
+
+{% block main_content %}
+<div class="row g-4">
+  <!-- Left: Create Tracked Link Card -->
+  <div class="col-lg-4">
+    <div class="bg-white p-4 rounded-3 border shadow-sm">
+      <h5 class="font-serif fw-bold text-navy mb-2">Create New Tracked Link</h5>
+      <p class="text-muted small mb-3">Generate an encoded landing-page URL with UTM tracking parameters.</p>
+
+      <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label class="form-label small fw-semibold text-muted">Link Name / Description</label>
+          <input type="text" name="name" class="rh-input" placeholder="e.g. TikTok Penthouse Reel 04" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label small fw-semibold text-muted">Platform</label>
+          <select name="platform" class="rh-select" required>
+            {% for val, label in platform_choices %}
+              <option value="{{ val }}">{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label small fw-semibold text-muted">Campaign Name</label>
+          <input type="text" name="campaign" class="rh-input" placeholder="e.g. London-Penthouse-Tour" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label small fw-semibold text-muted">Unique Tracking ID (utm_content)</label>
+          <input type="text" name="content_identifier" class="rh-input" placeholder="e.g. reel_004" required>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label small fw-semibold text-muted">Original Video URL (Optional)</label>
+          <input type="url" name="original_video_url" class="rh-input" placeholder="https://instagram.com/p/...">
+        </div>
+
+        <button type="submit" class="btn btn-gold w-100 py-2 justify-content-center">
+          + Create & Generate Link
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Right: Tracked Links Table -->
+  <div class="col-lg-8">
+    <div class="bg-white p-4 rounded-3 border shadow-sm">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="font-serif fw-bold text-navy mb-0">Active Tracked Links</h5>
+        <small class="text-muted">{{ links|length }} campaign links active</small>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-luxury table-hover mb-0">
+          <thead>
+            <tr>
+              <th>Campaign / Name</th>
+              <th>Platform</th>
+              <th>Clicks</th>
+              <th>Bookings</th>
+              <th>Conv %</th>
+              <th>Copy Link</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in links %}
+            <tr>
+              <td>
+                <div class="fw-semibold text-navy">{{ item.obj.name }}</div>
+                <small class="text-muted font-monospace">id: {{ item.obj.content_identifier }}</small>
+              </td>
+              <td>
+                <span class="badge rounded-pill bg-navy text-gold fw-semibold">
+                  {{ item.obj.get_platform_display }}
+                </span>
+              </td>
+              <td class="fw-bold">{{ item.obj.clicks_count }}</td>
+              <td>
+                <span class="badge-gold fw-bold">{{ item.obj.bookings_count }}</span>
+              </td>
+              <td>
+                <span class="badge rounded-pill bg-success-subtle text-success border">
+                  {{ item.conversion_rate }}%
+                </span>
+              </td>
+              <td>
+                <button 
+                  type="button" 
+                  class="btn btn-sm btn-outline-secondary py-1 px-2"
+                  onclick="copyToClipboard('{{ item.full_url|escapejs }}', 'Tracked link copied!')"
+                  title="Copy Link to Clipboard"
+                >
+                  📋 Copy URL
+                </button>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="6" class="text-center py-4 text-muted">No tracked links created yet.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

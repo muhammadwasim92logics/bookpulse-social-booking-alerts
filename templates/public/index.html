@@ -1,0 +1,630 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Renowned Homes — London & South East New Homes Specialists | Book a Consultation{% endblock %}
+
+{% block content %}
+<!-- Luxury Navigation Bar -->
+<header class="rh-navbar">
+  <div class="container d-flex align-items-center justify-content-between">
+    <a href="{% url 'bookings:landing' %}" class="rh-brand-logo text-decoration-none">
+      <div class="rh-brand-crest">RH</div>
+      <div>
+        <div class="lh-1" style="font-size: 1.35rem; font-weight: 700;">Renowned Homes</div>
+        <small class="text-gold" style="font-size: 0.68rem; letter-spacing: 1.5px; text-transform: uppercase;">New Homes Specialists</small>
+      </div>
+    </a>
+
+    <nav class="d-none d-md-flex align-items-center gap-2">
+      <a href="#services" class="rh-nav-link">Our Expertise</a>
+      <a href="#who-we-help" class="rh-nav-link">Who We Help</a>
+      <a href="#why-us" class="rh-nav-link">Why Renowned Homes</a>
+      <a href="#faq" class="rh-nav-link">FAQ</a>
+      <a href="{% url 'dashboard:overview' %}" class="rh-nav-link text-gold">Staff Portal</a>
+    </nav>
+
+    <div class="d-flex align-items-center gap-3">
+      <a href="tel:02032785855" class="d-none d-lg-flex align-items-center gap-2 text-white text-decoration-none" style="font-size: 0.9rem;">
+        <span class="text-gold">📞</span> 020 3278 5855
+      </a>
+      <a href="#booking" class="btn btn-gold">
+        Book Consultation
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- Hero Section -->
+<section class="rh-hero">
+  <div class="container position-relative" style="z-index: 2;">
+    <div class="row align-items-center min-vh-50 py-5">
+      <div class="col-lg-7">
+        <div class="rh-hero-badge">
+          <span>✨</span> London & South East New Homes Specialists
+        </div>
+        <h1 class="rh-hero-title font-serif">
+          Your Next Home Starts With the <span>Right Advice.</span>
+        </h1>
+        <p class="rh-hero-desc">
+          Speak with an independent Renowned Homes property specialist about prime new-build developments, investment yields, or your first move. Clear, honest guidance with zero pressure.
+        </p>
+        <div class="d-flex flex-wrap gap-3">
+          <a href="#booking" class="btn btn-gold btn-lg">
+            <span>📅</span> Book a Free Consultation
+          </a>
+          <a href="tel:02032785855" class="btn btn-gold-outline btn-lg">
+            Speak to an Adviser
+          </a>
+        </div>
+
+        <div class="d-flex align-items-center gap-4 mt-5 text-muted" style="font-size: 0.88rem;">
+          <div class="d-flex align-items-center gap-2 text-white">
+            <span class="text-gold">✓</span> Developer-paid advisory
+          </div>
+          <div class="d-flex align-items-center gap-2 text-white">
+            <span class="text-gold">✓</span> No pressure or hidden fees
+          </div>
+          <div class="d-flex align-items-center gap-2 text-white">
+            <span class="text-gold">✓</span> UK & International buyers
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-5 mt-5 mt-lg-0">
+        <div class="rh-card-dark pulse-gold">
+          <div class="d-flex align-items-center justify-content-between mb-3 border-bottom border-gold-subtle pb-3">
+            <div class="text-gold font-serif" style="font-size: 1.15rem; font-weight: 600;">Advisory Consultation</div>
+            <span class="badge-gold">Complimentary</span>
+          </div>
+          <p class="text-light" style="font-size: 0.95rem; line-height: 1.6;">
+            Select your preferred time slot below. You will receive an immediate confirmation code to secure your 1-on-1 session with our London property specialists.
+          </p>
+          <ul class="list-unstyled mb-4" style="font-size: 0.9rem; color: #CBD5E1;">
+            <li class="mb-2">📍 <strong>Location:</strong> Private Video Call or London E14 Office</li>
+            <li class="mb-2">⏱️ <strong>Duration:</strong> 45 Minutes Private Strategy Session</li>
+            <li class="mb-2">🎯 <strong>Tailored:</strong> New-build shortlist, pricing & mortgage introductions</li>
+          </ul>
+          <a href="#booking" class="btn btn-gold w-100 justify-content-center">
+            Select Your Date & Time Below
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Trust Bar: Developer Relationships -->
+<section class="trust-bar">
+  <div class="container text-center">
+    <div class="text-muted text-uppercase mb-3" style="font-size: 0.78rem; letter-spacing: 1.5px; font-weight: 600;">
+      Working With Major UK Housebuilders & Developers
+    </div>
+    <div class="d-flex flex-wrap align-items-center justify-content-center gap-3 gap-md-4">
+      <span class="trust-logo-pill">Berkeley Group</span>
+      <span class="trust-logo-pill">Barratt London</span>
+      <span class="trust-logo-pill">Ballymore</span>
+      <span class="trust-logo-pill">St William</span>
+      <span class="trust-logo-pill">London Square</span>
+      <span class="trust-logo-pill">Mount Anvil</span>
+    </div>
+  </div>
+</section>
+
+<!-- Who We Help Section -->
+<section id="who-we-help" class="py-5 bg-white">
+  <div class="container py-4">
+    <div class="text-center max-w-700 mx-auto mb-5">
+      <span class="badge-gold text-uppercase mb-2">Tailored Guidance</span>
+      <h2 class="font-serif display-6 fw-bold text-navy">Who We Help</h2>
+      <p class="text-muted">
+        Whether you are taking your first step onto the London property ladder or building a multi-unit investment portfolio, our independent advisory is built around your objectives.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-3">
+        <div class="rh-card h-100">
+          <div style="font-size: 2rem; margin-bottom: 14px;">🔑</div>
+          <h4 class="font-serif text-navy h5">First-Time Buyers</h4>
+          <p class="text-muted" style="font-size: 0.9rem;">
+            Navigate government incentives, deposit unlocks, and find high-specification London new builds with 10-year NHBC warranties.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <div class="rh-card h-100">
+          <div style="font-size: 2rem; margin-bottom: 14px;">📈</div>
+          <h4 class="font-serif text-navy h5">Property Investors</h4>
+          <p class="text-muted" style="font-size: 0.9rem;">
+            Data-backed yield analysis, rental demand forecasts, and early-phase developments across London & the South East regeneration hubs.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <div class="rh-card h-100">
+          <div style="font-size: 2rem; margin-bottom: 14px;">🏡</div>
+          <h4 class="font-serif text-navy h5">Families & Upsizers</h4>
+          <p class="text-muted" style="font-size: 0.9rem;">
+            Spacious family apartments and townhouses close to outstanding schools, green parks, and swift commuter transport links.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <div class="rh-card h-100">
+          <div style="font-size: 2rem; margin-bottom: 14px;">🌍</div>
+          <h4 class="font-serif text-navy h5">International Buyers</h4>
+          <p class="text-muted" style="font-size: 0.9rem;">
+            Remote video walk-throughs, currency guidance, and trusted introductions to UK specialist solicitors and tax advisers.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Our Advisory Services -->
+<section id="services" class="py-5 bg-cream border-top border-bottom border-gold-subtle">
+  <div class="container py-4">
+    <div class="text-center max-w-700 mx-auto mb-5">
+      <span class="badge-gold text-uppercase mb-2">Our Expertise</span>
+      <h2 class="font-serif display-6 fw-bold text-navy">End-to-End Buyer Advisory</h2>
+      <p class="text-muted">
+        We sit strictly on your side of the table, offering honest, no-pressure guidance throughout your property purchase.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="d-flex gap-3 p-4 bg-white rounded-3 shadow-sm border border-gold-subtle">
+          <div class="rh-brand-crest" style="flex-shrink: 0;">1</div>
+          <div>
+            <h5 class="font-serif text-navy fw-bold mb-2">New-Build Shortlisting & Development Access</h5>
+            <p class="text-muted mb-0" style="font-size: 0.92rem;">
+              We filter hundreds of London developments to recommend units that match your exact lifestyle, budget, and capital growth criteria.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="d-flex gap-3 p-4 bg-white rounded-3 shadow-sm border border-gold-subtle">
+          <div class="rh-brand-crest" style="flex-shrink: 0;">2</div>
+          <div>
+            <h5 class="font-serif text-navy fw-bold mb-2">Direct Developer Relationships</h5>
+            <p class="text-muted mb-0" style="font-size: 0.92rem;">
+              Take advantage of our direct developer links to access exclusive incentives, pre-launch pricing, and preferred floor levels.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="d-flex gap-3 p-4 bg-white rounded-3 shadow-sm border border-gold-subtle">
+          <div class="rh-brand-crest" style="flex-shrink: 0;">3</div>
+          <div>
+            <h5 class="font-serif text-navy fw-bold mb-2">Specialist Mortgage Introductions</h5>
+            <p class="text-muted mb-0" style="font-size: 0.92rem;">
+              We introduce you to independent, whole-of-market mortgage brokers specialising in new-build criteria and high-value lending.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="d-flex gap-3 p-4 bg-white rounded-3 shadow-sm border border-gold-subtle">
+          <div class="rh-brand-crest" style="flex-shrink: 0;">4</div>
+          <div>
+            <h5 class="font-serif text-navy fw-bold mb-2">Solicitor & Conveyancing Introductions</h5>
+            <p class="text-muted mb-0" style="font-size: 0.92rem;">
+              Ensure your reservation meets the standard 28-day exchange deadline with seasoned solicitors experienced in new homes conveyancing.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Interactive Booking Section -->
+<section id="booking" class="booking-section">
+  <div class="container">
+    <div class="text-center max-w-700 mx-auto mb-5">
+      <span class="badge-gold text-uppercase mb-2">Reserve Your Session</span>
+      <h2 class="font-serif display-5 fw-bold text-navy">Book Your Consultation</h2>
+      <p class="text-muted">
+        Choose your preferred date and time slot. When you submit your request, an email confirmation code will be dispatched to secure your consultation.
+      </p>
+    </div>
+
+    <div class="booking-form-box">
+      <form id="consultationBookingForm">
+        <div class="row g-4">
+          
+          <!-- Column 1: Date & Interactive Slots -->
+          <div class="col-lg-5 border-end-lg pe-lg-4">
+            <h4 class="font-serif text-navy h5 mb-3 d-flex align-items-center gap-2">
+              <span class="text-gold">1.</span> Select Date & Time
+            </h4>
+
+            <div class="mb-3">
+              <label for="appointmentDate" class="form-label fw-semibold text-secondary" style="font-size: 0.9rem;">
+                Appointment Date
+              </label>
+              <input 
+                type="date" 
+                id="appointmentDate" 
+                name="appointment_date" 
+                class="rh-input"
+                min="{{ min_date }}" 
+                max="{{ max_date }}"
+                value="{{ default_date }}"
+                required
+              >
+              <div class="form-text text-muted">Business hours: Mon – Sat (09:00 – 18:00 Europe/London)</div>
+            </div>
+
+            <div class="mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label class="form-label fw-semibold text-secondary mb-0" style="font-size: 0.9rem;">
+                  Available Time Slots
+                </label>
+                <small class="text-muted">45 Min Duration</small>
+              </div>
+
+              <!-- Loading Indicator -->
+              <div id="slotsLoading" class="text-center py-4" style="display: none;">
+                <div class="spinner-border text-gold spinner-border-sm" role="status"></div>
+                <span class="ms-2 text-muted" style="font-size: 0.88rem;">Checking live availability...</span>
+              </div>
+
+              <!-- Empty state -->
+              <div id="slotsEmpty" class="alert alert-warning py-2 px-3" style="font-size: 0.88rem; display: none;"></div>
+
+              <!-- Dynamic Slots Container -->
+              <div id="slotsContainer" class="d-grid" style="grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; max-height: 260px; overflow-y: auto; padding-right: 4px;">
+                {% for slot in initial_slots %}
+                  <div 
+                    class="slot-pill {% if not slot.is_available %}disabled{% endif %}" 
+                    data-time="{{ slot.time }}"
+                    title="{{ slot.reason }}"
+                  >
+                    {{ slot.display }}
+                  </div>
+                {% empty %}
+                  <div class="text-muted py-3 text-center">No slots available for this date. Please select another date.</div>
+                {% endfor %}
+              </div>
+
+              <!-- Hidden selected time slot field -->
+              <input type="hidden" id="appointmentTime" name="appointment_time" value="">
+            </div>
+
+            <div class="d-flex align-items-center gap-3 pt-2 text-muted" style="font-size: 0.78rem;">
+              <span class="d-flex align-items-center gap-1"><span class="badge rounded-circle bg-secondary p-1"></span> Taken / Past</span>
+              <span class="d-flex align-items-center gap-1"><span class="badge rounded-circle bg-white border border-secondary p-1"></span> Available</span>
+              <span class="d-flex align-items-center gap-1"><span class="badge rounded-circle bg-navy p-1"></span> Selected</span>
+            </div>
+          </div>
+
+          <!-- Column 2: Visitor Details -->
+          <div class="col-lg-7 ps-lg-4">
+            <h4 class="font-serif text-navy h5 mb-3 d-flex align-items-center gap-2">
+              <span class="text-gold">2.</span> Your Contact Details
+            </h4>
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="fullName" class="form-label fw-semibold text-secondary" style="font-size: 0.9rem;">
+                  Full Name <span class="text-danger">*</span>
+                </label>
+                <input type="text" id="fullName" name="full_name" class="rh-input" placeholder="e.g. Eleanor Vance" required>
+              </div>
+
+              <div class="col-md-6">
+                <label for="email" class="form-label fw-semibold text-secondary" style="font-size: 0.9rem;">
+                  Email Address <span class="text-danger">*</span>
+                </label>
+                <input type="email" id="email" name="email" class="rh-input" placeholder="e.g. eleanor@example.com" required>
+                <div class="form-text" style="font-size: 0.78rem;">We will send your 6-digit confirmation code here.</div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="phone" class="form-label fw-semibold text-secondary" style="font-size: 0.9rem;">
+                  Phone Number <span class="text-danger">*</span>
+                </label>
+                <input type="tel" id="phone" name="phone" class="rh-input" placeholder="e.g. +44 7700 900123" required>
+              </div>
+
+              <div class="col-md-6">
+                <label for="enquiryType" class="form-label fw-semibold text-secondary" style="font-size: 0.9rem;">
+                  Consultation Focus <span class="text-danger">*</span>
+                </label>
+                <select id="enquiryType" name="enquiry_type" class="rh-select" required>
+                  {% for val, label in enquiry_choices %}
+                    <option value="{{ val }}">{{ label }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="col-12">
+                <label for="socialUsername" class="form-label fw-semibold text-secondary" style="font-size: 0.9rem;">
+                  Social Media Username <span class="text-muted fw-normal">(Optional)</span>
+                </label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light text-muted border-end-0">@</span>
+                  <input type="text" id="socialUsername" name="social_username" class="rh-input border-start-0" placeholder="instagram, tiktok, or youtube handle">
+                </div>
+                <div class="form-text" style="font-size: 0.78rem;">Add your handle if you would prefer us to contact you via direct message.</div>
+              </div>
+
+              <div class="col-12">
+                <label for="additionalNotes" class="form-label fw-semibold text-secondary" style="font-size: 0.9rem;">
+                  Specific Areas or Requirements <span class="text-muted fw-normal">(Optional)</span>
+                </label>
+                <textarea id="additionalNotes" name="message" class="rh-input" rows="2" placeholder="e.g. Looking for a 2-bed apartment in Canary Wharf or Battersea, budget £750k..."></textarea>
+              </div>
+
+              <div class="col-12">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="consentContact" required checked>
+                  <label class="form-check-label text-muted" for="consentContact" style="font-size: 0.85rem;">
+                    I consent to Renowned Homes contacting me regarding this consultation request.
+                  </label>
+                </div>
+
+                <div class="form-check mt-1">
+                  <input class="form-check-input" type="checkbox" id="consentMarketing">
+                  <label class="form-check-label text-muted" for="consentMarketing" style="font-size: 0.85rem;">
+                    (Optional) Send me exclusive pre-market new development launches and London property market reports.
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-12 mt-4">
+                <button type="submit" id="btnSubmitBooking" class="btn btn-gold btn-lg w-100 justify-content-center py-3">
+                  <span>🔒</span> Request Appointment & Verify Email
+                </button>
+                <div class="text-center text-muted mt-2" style="font-size: 0.78rem;">
+                  Free buyer service • No obligation • Instant verification code
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ Accordion -->
+<section id="faq" class="py-5 bg-white border-top">
+  <div class="container py-4 max-w-800 mx-auto">
+    <div class="text-center mb-5">
+      <span class="badge-gold text-uppercase mb-2">Clear Answers</span>
+      <h2 class="font-serif display-6 fw-bold text-navy">Frequently Asked Questions</h2>
+    </div>
+
+    <div class="accordion" id="rhFaqAccordion">
+      <div class="accordion-item border-gold-subtle mb-3 rounded overflow-hidden">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed fw-semibold text-navy" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+            Why is Renowned Homes' advisory free for buyers?
+          </button>
+        </h2>
+        <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#rhFaqAccordion">
+          <div class="accordion-body text-secondary" style="font-size: 0.95rem;">
+            Our fees are remunerated by developers and housebuilders rather than by property purchasers. This standard UK industry model ensures you receive independent, professional buyer representation without paying upfront fees or markups.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item border-gold-subtle mb-3 rounded overflow-hidden">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed fw-semibold text-navy" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+            Do you provide mortgage or legal advice directly?
+          </button>
+        </h2>
+        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#rhFaqAccordion">
+          <div class="accordion-body text-secondary" style="font-size: 0.95rem;">
+            Renowned Homes is a specialised property advisory service. We do not provide regulated mortgage or legal advice ourselves; instead, we provide warm introductions to trusted, independent mortgage brokers and conveyancing solicitors who specialise in UK new-build purchases.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item border-gold-subtle mb-3 rounded overflow-hidden">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed fw-semibold text-navy" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+            Can international buyers book a remote consultation?
+          </button>
+        </h2>
+        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#rhFaqAccordion">
+          <div class="accordion-body text-secondary" style="font-size: 0.95rem;">
+            Yes, a significant proportion of our clients are based overseas in Asia, the Middle East, Europe, and North America. Consultations are conducted via high-definition video link, accompanied by interactive development plans, floorplans, and remote video walk-throughs.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-navy-darker text-white pt-5 pb-4 border-top border-gold">
+  <div class="container">
+    <div class="row g-4 mb-4">
+      <div class="col-md-5">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <div class="rh-brand-crest">RH</div>
+          <div class="font-serif fw-bold text-white fs-5">Renowned Homes</div>
+        </div>
+        <p class="text-muted" style="font-size: 0.9rem; max-width: 400px;">
+          London & South East New Homes Specialists. Providing independent buyer guidance across prime residential developments.
+        </p>
+      </div>
+
+      <div class="col-md-3">
+        <h5 class="text-gold font-serif h6 mb-3">Headquarters</h5>
+        <p class="text-muted" style="font-size: 0.88rem; line-height: 1.6;">
+          77 Marsh Wall<br>
+          London E14 9SH<br>
+          United Kingdom
+        </p>
+      </div>
+
+      <div class="col-md-4">
+        <h5 class="text-gold font-serif h6 mb-3">Contact Directly</h5>
+        <p class="text-muted mb-1" style="font-size: 0.88rem;">
+          Telephone: <a href="tel:02032785855" class="text-white">020 3278 5855</a>
+        </p>
+        <p class="text-muted mb-3" style="font-size: 0.88rem;">
+          Email: <a href="mailto:info@renownedhomes.co.uk" class="text-white">info@renownedhomes.co.uk</a>
+        </p>
+        <a href="{% url 'dashboard:overview' %}" class="badge-gold text-decoration-none">
+          🔐 Staff Portal Sign In
+        </a>
+      </div>
+    </div>
+
+    <div class="border-top border-secondary pt-3 d-flex flex-wrap justify-content-between text-muted" style="font-size: 0.8rem;">
+      <div>&copy; 2026 Renowned Homes Ltd. All rights reserved. Registered in England & Wales.</div>
+      <div class="d-flex gap-3">
+        <a href="https://www.renowned-homes.co.uk/privacy-policy" target="_blank" class="text-muted">Privacy Policy</a>
+        <a href="#booking" class="text-gold">Book Appointment</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- =========================================================================
+     MODAL POP-UP 1: VERIFICATION CODE ENTRY
+     ========================================================================= -->
+<div id="verificationModal" class="rh-modal-overlay" role="dialog" aria-modal="true">
+  <div class="rh-modal-card">
+    <button class="rh-modal-close-btn" onclick="closeModal('verificationModal')" aria-label="Close modal">&times;</button>
+    
+    <div class="p-4 p-md-5">
+      <div class="text-center mb-3">
+        <div class="rh-brand-crest mx-auto mb-3" style="width: 48px; height: 48px; font-size: 1.3rem;">✉️</div>
+        <h3 class="font-serif text-navy fw-bold h4 mb-1">Enter Confirmation Code</h3>
+        <p class="text-muted mb-0" style="font-size: 0.92rem;">
+          We have sent a 6-digit confirmation code to:
+        </p>
+        <div id="modalMaskedEmail" class="fw-bold text-navy" style="font-size: 1rem;">user@example.com</div>
+      </div>
+
+      <!-- Demo / Testing Helper Pill (Great for testing without external mail server) -->
+      <div id="demoHelperBox" class="demo-helper-badge">
+        <div>
+          <span>🧪 <strong>Reviewer Demo Code:</strong> <code id="demoCodeValue" class="fw-bold text-dark fs-6">123456</code></span>
+        </div>
+        <button type="button" id="btnQuickFillDemo" class="quick-fill-btn">Quick-Fill</button>
+      </div>
+
+      <!-- Error Message Banner -->
+      <div id="verificationError" class="alert alert-danger py-2 px-3 mb-3 text-center" style="font-size: 0.86rem; display: none;"></div>
+
+      <!-- 6-Digit PIN Grid -->
+      <div id="pinGrid" class="pin-grid">
+        <input type="text" inputmode="numeric" maxlength="1" class="pin-digit" autofocus>
+        <input type="text" inputmode="numeric" maxlength="1" class="pin-digit">
+        <input type="text" inputmode="numeric" maxlength="1" class="pin-digit">
+        <input type="text" inputmode="numeric" maxlength="1" class="pin-digit">
+        <input type="text" inputmode="numeric" maxlength="1" class="pin-digit">
+        <input type="text" inputmode="numeric" maxlength="1" class="pin-digit">
+      </div>
+
+      <div class="d-grid gap-2 mb-3">
+        <button type="button" id="btnVerifyCode" class="btn btn-gold btn-lg py-3">
+          Confirm Appointment
+        </button>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center text-muted" style="font-size: 0.85rem;">
+        <span>Didn't receive the email?</span>
+        <button type="button" id="btnResendCode" class="btn btn-link p-0 text-gold-dark text-decoration-none fw-semibold">
+          Resend Code <span id="resendTimerText"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- =========================================================================
+     MODAL POP-UP 2: APPOINTMENT CONFIRMED SUMMARY
+     ========================================================================= -->
+<div id="confirmationSuccessModal" class="rh-modal-overlay" role="dialog" aria-modal="true">
+  <div class="rh-modal-card">
+    <button class="rh-modal-close-btn" onclick="closeModal('confirmationSuccessModal')" aria-label="Close modal">&times;</button>
+    
+    <div class="p-4 p-md-5 text-center">
+      <div class="confirmed-check-circle">✓</div>
+      <h3 class="font-serif text-navy fw-bold h3 mb-1">Appointment Confirmed!</h3>
+      <p class="text-muted" style="font-size: 0.95rem;">
+        Your consultation has been reserved in our system. A notification has been dispatched to our advisory desk.
+      </p>
+
+      <!-- Luxury Consultation Ticket -->
+      <div class="ticket-card text-start">
+        <div class="ticket-header">
+          <div>
+            <div style="font-size: 0.75rem; text-transform: uppercase; color: #64748B; letter-spacing: 1px;">Booking Reference</div>
+            <div class="d-flex align-items-center gap-2 mt-1">
+              <span id="confBookingRef" class="ref-pill">RH-2026-000000</span>
+              <button type="button" id="btnCopyRef" class="btn btn-sm btn-outline-secondary py-0 px-2" title="Copy Reference" style="font-size: 0.75rem;">Copy</button>
+            </div>
+          </div>
+          <span class="badge-confirmed">Confirmed</span>
+        </div>
+
+        <div class="ticket-row">
+          <span class="ticket-label">Client Name:</span>
+          <span id="confClientName" class="ticket-value">Client Name</span>
+        </div>
+
+        <div class="ticket-row">
+          <span class="ticket-label">Date:</span>
+          <span id="confDate" class="ticket-value">Date</span>
+        </div>
+
+        <div class="ticket-row">
+          <span class="ticket-label">Time:</span>
+          <span id="confTime" class="ticket-value">Time</span>
+        </div>
+
+        <div class="ticket-row">
+          <span class="ticket-label">Focus:</span>
+          <span id="confService" class="ticket-value">New-build purchase</span>
+        </div>
+
+        <div class="ticket-row">
+          <span class="ticket-label">Location:</span>
+          <span class="ticket-value">Remote Video / London E14</span>
+        </div>
+      </div>
+
+      <div class="d-grid gap-2 mb-2">
+        <a id="btnDownloadIcs" href="#" class="btn btn-gold btn-lg py-2 justify-content-center">
+          📅 Add to Google / Apple Calendar (.ics)
+        </a>
+        <button type="button" class="btn btn-navy-outline" onclick="closeModal('confirmationSuccessModal')">
+          Done
+        </button>
+      </div>
+
+      <small class="text-muted" style="font-size: 0.8rem;">
+        If you need to reschedule or contact us before the session, call <strong>020 3278 5855</strong>.
+      </small>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/booking.js' %}"></script>
+{% endblock %}
+

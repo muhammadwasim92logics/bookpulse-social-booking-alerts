@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Admin Dashboard — Renowned Homes{% endblock %}</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231b3729'/><text x='50%' y='68%' font-size='60' font-weight='bold' fill='%23c4962a' text-anchor='middle' font-family='serif'>RH</text></svg>">
+
+  <!-- Google Fonts: Playfair Display, Urbanist & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/brand.css' %}">
+  <link rel="stylesheet" href="{% static 'css/popups.css' %}">
+
+  <style>
+    .admin-layout {
+      display: flex;
+      min-height: 100vh;
+      background: #F8FAFC;
+    }
+    .admin-sidebar {
+      width: 260px;
+      background: var(--rh-navy-darker);
+      color: #E2E8F0;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid rgba(197, 168, 128, 0.25);
+    }
+    .admin-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      color: #94A3B8;
+      font-weight: 500;
+      font-size: 0.92rem;
+      border-left: 3px solid transparent;
+      transition: var(--transition-smooth);
+      text-decoration: none;
+    }
+    .admin-nav-item:hover {
+      color: var(--rh-gold);
+      background: rgba(197, 168, 128, 0.08);
+    }
+    .admin-nav-item.active {
+      color: #FFFFFF;
+      background: rgba(197, 168, 128, 0.14);
+      border-left-color: var(--rh-gold);
+      font-weight: 600;
+    }
+    .admin-content {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+    .admin-topbar {
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--rh-border-light);
+      padding: 14px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .admin-main {
+      padding: 32px;
+      flex-grow: 1;
+    }
+    .kpi-card {
+      background: #FFFFFF;
+      border-radius: 14px;
+      border: 1px solid var(--rh-border-light);
+      padding: 22px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition-smooth);
+    }
+    .kpi-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: var(--rh-gold-border);
+      transform: translateY(-2px);
+    }
+    .table-luxury th {
+      background: #F8FAFC;
+      color: #475569;
+      font-weight: 600;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1.5px solid var(--rh-border-light);
+    }
+    .table-luxury td {
+      vertical-align: middle;
+      font-size: 0.9rem;
+      color: #1E293B;
+      padding: 14px 12px;
+      border-bottom: 1px solid #F1F5F9;
+    }
+    @media (max-width: 992px) {
+      .admin-layout { flex-direction: column; }
+      .admin-sidebar { width: 100%; }
+    }
+  </style>
+
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+  <!-- Toast Notification Container -->
+  <div id="rhToastContainer"></div>
+
+  <div class="admin-layout">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="p-4 border-bottom border-secondary d-flex align-items-center gap-2">
+        <div class="rh-brand-crest">RH</div>
+        <div>
+          <div class="font-serif fw-bold text-white fs-6">Renowned Homes</div>
+          <small class="text-gold" style="font-size: 0.72rem; letter-spacing: 1px;">Admin Operations</small>
+        </div>
+      </div>
+
+      <nav class="py-3 flex-grow-1">
+        <a href="{% url 'dashboard:overview' %}" class="admin-nav-item {% if request.resolver_match.url_name == 'overview' %}active{% endif %}">
+          <span>📊</span> Overview
+        </a>
+        <a href="{% url 'dashboard:bookings' %}" class="admin-nav-item {% if request.resolver_match.url_name == 'bookings' %}active{% endif %}">
+          <span>📅</span> Bookings Management
+        </a>
+        <a href="{% url 'dashboard:calendar' %}" class="admin-nav-item {% if request.resolver_match.url_name == 'calendar' %}active{% endif %}">
+          <span>🗓️</span> Calendar View
+        </a>
+        <a href="{% url 'dashboard:analytics' %}" class="admin-nav-item {% if request.resolver_match.url_name == 'analytics' %}active{% endif %}">
+          <span>📈</span> Social Analytics
+        </a>
+        <a href="{% url 'dashboard:tracked_links' %}" class="admin-nav-item {% if request.resolver_match.url_name == 'tracked_links' %}active{% endif %}">
+          <span>🔗</span> Tracked Links
+        </a>
+        <a href="{% url 'dashboard:settings' %}" class="admin-nav-item {% if request.resolver_match.url_name == 'settings' %}active{% endif %}">
+          <span>⚙️</span> Settings & Slack
+        </a>
+      </nav>
+
+      <div class="p-3 border-top border-secondary">
+        <a href="{% url 'bookings:landing' %}" target="_blank" class="admin-nav-item mb-2" style="border-radius: 8px; border: 1px dashed rgba(197, 168, 128, 0.4);">
+          <span>↗️</span> View Public Site
+        </a>
+        <div class="d-flex align-items-center justify-content-between px-2 pt-2 text-muted" style="font-size: 0.82rem;">
+          <div class="text-truncate" style="max-width: 140px;">
+            <strong class="text-white">{{ user.first_name|default:user.username }}</strong>
+          </div>
+          <a href="{% url 'dashboard:logout' %}" class="text-danger text-decoration-none">Log out</a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Content Area -->
+    <div class="admin-content">
+      <!-- Topbar -->
+      <header class="admin-topbar">
+        <div>
+          <h1 class="h4 fw-bold text-navy mb-0">{% block header_title %}Overview{% endblock %}</h1>
+          <small class="text-muted">{% block header_subtitle %}Real-time consultation bookings & social media analytics{% endblock %}</small>
+        </div>
+
+        <div class="d-flex align-items-center gap-3">
+          <div class="d-none d-md-flex align-items-center gap-2 bg-light px-3 py-1 rounded-pill border" style="font-size: 0.84rem;">
+            <span class="text-gold">⚡</span>
+            <span>Slack Webhook: <strong class="text-success">Active (#new-bookings)</strong></span>
+          </div>
+          <div class="bg-light px-3 py-1 rounded-pill border text-muted" style="font-size: 0.84rem;">
+            <span>🇬🇧 London: <strong id="londonClock">--:--</strong></span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Body -->
+      <main class="admin-main">
+        {% block main_content %}{% endblock %}
+      </main>
+    </div>
+  </div>
+
+
+  <!-- =========================================================================
+       ADMIN MODAL 1: BOOKING FULL DETAIL & STATUS UPDATER
+       ========================================================================= -->
+  <div id="bookingDetailModal" class="rh-modal-overlay" role="dialog" aria-modal="true">
+    <div class="rh-modal-card" style="max-width: 650px;">
+      <button class="rh-modal-close-btn" onclick="closeModal('bookingDetailModal')">&times;</button>
+      <div class="p-4 p-md-5">
+        <div class="d-flex justify-content-between align-items-start border-bottom pb-3 mb-3">
+          <div>
+            <span class="badge-gold">Booking Detail</span>
+            <h3 id="modalDetailRef" class="font-serif text-navy fw-bold h4 mt-1 mb-0">RH-2026-000000</h3>
+          </div>
+          <div id="modalDetailVerified"></div>
+        </div>
+
+        <div class="row g-3 mb-3" style="font-size: 0.92rem;">
+          <div class="col-sm-6">
+            <span class="text-muted">Client Name:</span>
+            <div id="modalDetailName" class="fw-semibold text-navy">--</div>
+          </div>
+          <div class="col-sm-6">
+            <span class="text-muted">Enquiry Focus:</span>
+            <div id="modalDetailService" class="fw-semibold text-navy">--</div>
+          </div>
+          <div class="col-sm-6">
+            <span class="text-muted">Email:</span>
+            <div id="modalDetailEmail" class="fw-semibold">--</div>
+          </div>
+          <div class="col-sm-6">
+            <span class="text-muted">Phone:</span>
+            <div id="modalDetailPhone" class="fw-semibold">--</div>
+          </div>
+          <div class="col-sm-6">
+            <span class="text-muted">Requested Appointment:</span>
+            <div id="modalDetailDateTime" class="fw-bold text-navy">--</div>
+          </div>
+          <div class="col-sm-6">
+            <span class="text-muted">Social Username:</span>
+            <div id="modalDetailSocial" class="fw-semibold">--</div>
+          </div>
+          <div class="col-12">
+            <span class="text-muted">Additional Information / Message:</span>
+            <div id="modalDetailMessage" class="p-2 bg-light rounded mt-1 text-secondary" style="font-size: 0.88rem;">--</div>
+          </div>
+        </div>
+
+        <!-- Attribution Strip -->
+        <div class="p-3 bg-light rounded mb-3 border">
+          <div class="fw-semibold text-navy mb-1" style="font-size: 0.85rem;">Source Attribution</div>
+          <div id="modalDetailAttribution" class="small text-secondary"></div>
+        </div>
+
+        <!-- Slack Delivery Status & Quick Actions -->
+        <div class="p-2 px-3 rounded mb-4 bg-gold-soft border-gold-subtle d-flex flex-wrap align-items-center justify-content-between gap-2" style="font-size: 0.85rem;">
+          <div id="modalDetailSlack">Slack Webhook: Sent</div>
+          <div class="d-flex align-items-center gap-2">
+            <button type="button" id="btnResendSlackNotification" class="btn btn-sm btn-outline-success py-1 px-2 d-inline-flex align-items-center gap-1" style="font-size: 0.78rem;">
+              <span>⚡</span> Resend to Slack
+            </button>
+            <span class="badge-confirmed">Idempotent</span>
+          </div>
+        </div>
+
+        <!-- Admin Status & Notes Editor -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold text-secondary" style="font-size: 0.9rem;">Update Status</label>
+          <select id="modalDetailStatusSelect" class="rh-select mb-3">
+            <option value="pending_verification">Awaiting Email Verification</option>
+            <option value="pending">Pending Staff Review</option>
+            <option value="confirmed">Confirmed Appointment</option>
+            <option value="rescheduled">Rescheduled</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+            <option value="no_show">No-Show</option>
+          </select>
+
+          <label class="form-label fw-semibold text-secondary" style="font-size: 0.9rem;">Internal Staff Notes</label>
+          <textarea id="modalDetailNotes" class="rh-input" rows="2" placeholder="e.g. Spoke on phone, client interested in 2-bed Berkeley unit. Introduced broker."></textarea>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2">
+          <button type="button" class="btn btn-outline-secondary" onclick="closeModal('bookingDetailModal')">Close</button>
+          <button type="button" id="btnSaveBookingModal" class="btn btn-gold">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =========================================================================
+       ADMIN MODAL 2: RESCHEDULE APPOINTMENT
+       ========================================================================= -->
+  <div id="rescheduleModal" class="rh-modal-overlay" role="dialog" aria-modal="true">
+    <div class="rh-modal-card" style="max-width: 480px;">
+      <button class="rh-modal-close-btn" onclick="closeModal('rescheduleModal')">&times;</button>
+      <div class="p-4 p-md-5">
+        <h3 class="font-serif text-navy fw-bold h4 mb-1">Reschedule Appointment</h3>
+        <p class="text-muted mb-3" style="font-size: 0.9rem;">
+          Reference: <strong id="rescheduleBookingRef" class="text-navy"></strong>
+        </p>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold text-secondary">New Date</label>
+          <input type="date" id="rescheduleDate" class="rh-input" required>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label fw-semibold text-secondary">New Time (Europe/London)</label>
+          <input type="time" id="rescheduleTime" class="rh-input" required>
+        </div>
+
+        <div class="d-grid gap-2">
+          <button type="button" id="btnSubmitReschedule" class="btn btn-gold">Reschedule Appointment</button>
+          <button type="button" class="btn btn-outline-secondary" onclick="closeModal('rescheduleModal')">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'js/popups.js' %}"></script>
+  <script src="{% static 'js/dashboard.js' %}"></script>
+
+  <script>
+    // Live London Clock
+    function updateClock() {
+      const now = new Date();
+      const options = { timeZone: 'Europe/London', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+      const timeStr = new Intl.DateTimeFormat('en-GB', options).format(now);
+      const el = document.getElementById('londonClock');
+      if (el) el.textContent = timeStr;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
+
+  <!-- Flash messages into Tasteful Toasts -->
+  {% if messages %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      {% for message in messages %}
+        window.showToast(
+          "{{ message.tags|capfirst }}",
+          "{{ message|escapejs }}",
+          "{% if message.tags == 'error' %}error{% elif message.tags == 'warning' %}warning{% else %}success{% endif %}",
+          4500
+        );
+      {% endfor %}
+    });
+  </script>
+  {% endif %}
+
+  {% block extra_js %}{% endblock %}
+</body>
+</html>
+

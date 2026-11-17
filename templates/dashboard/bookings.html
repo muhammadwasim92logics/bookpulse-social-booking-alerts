@@ -1,0 +1,157 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block title %}Bookings Management — Renowned Homes{% endblock %}
+{% block header_title %}Bookings Management{% endblock %}
+{% block header_subtitle %}Search, filter, reschedule and review prospective buyer appointments{% endblock %}
+
+{% block main_content %}
+<!-- Search & Filters Strip -->
+<div class="bg-white p-4 rounded-3 border shadow-sm mb-4">
+  <form method="get" class="row g-3 align-items-end">
+    <div class="col-md-3">
+      <label class="form-label small fw-semibold text-muted">Search Client or Ref</label>
+      <input type="text" name="q" value="{{ search }}" class="form-control form-control-sm" placeholder="Name, email, phone, RH-...">
+    </div>
+
+    <div class="col-md-2">
+      <label class="form-label small fw-semibold text-muted">Status</label>
+      <select name="status" class="form-select form-select-sm">
+        <option value="">All Statuses</option>
+        {% for val, label in status_choices %}
+          <option value="{{ val }}" {% if status_filter == val %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-2">
+      <label class="form-label small fw-semibold text-muted">Platform</label>
+      <select name="platform" class="form-select form-select-sm">
+        <option value="">All Sources</option>
+        <option value="instagram" {% if platform_filter == 'instagram' %}selected{% endif %}>Instagram</option>
+        <option value="tiktok" {% if platform_filter == 'tiktok' %}selected{% endif %}>TikTok</option>
+        <option value="youtube" {% if platform_filter == 'youtube' %}selected{% endif %}>YouTube</option>
+        <option value="facebook" {% if platform_filter == 'facebook' %}selected{% endif %}>Facebook</option>
+        <option value="direct" {% if platform_filter == 'direct' %}selected{% endif %}>Direct / Website</option>
+      </select>
+    </div>
+
+    <div class="col-md-2">
+      <label class="form-label small fw-semibold text-muted">Appointment Date</label>
+      <input type="date" name="date" value="{{ date_filter }}" class="form-control form-control-sm">
+    </div>
+
+    <div class="col-md-3 d-flex gap-2">
+      <button type="submit" class="btn btn-sm btn-gold flex-grow-1">Filter</button>
+      <a href="{% url 'dashboard:bookings' %}" class="btn btn-sm btn-outline-secondary">Reset</a>
+      <a href="{% url 'dashboard:export_csv' %}" class="btn btn-sm btn-navy-outline" title="Export to CSV">Export</a>
+    </div>
+  </form>
+</div>
+
+<!-- Bookings Table -->
+<div class="bg-white rounded-3 border shadow-sm overflow-hidden mb-4">
+  <div class="table-responsive">
+    <table class="table table-luxury table-hover mb-0">
+      <thead>
+        <tr>
+          <th>Reference</th>
+          <th>Submitted</th>
+          <th>Client Details</th>
+          <th>Appointment Slot</th>
+          <th>Consultation Focus</th>
+          <th>Attribution</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for b in page_obj %}
+        <tr>
+          <td>
+            <span class="font-monospace fw-bold text-navy" style="font-size: 0.88rem;">{{ b.booking_reference }}</span>
+          </td>
+          <td>
+            <small class="text-muted">{{ b.created_at|date:"d M, H:i" }}</small>
+          </td>
+          <td>
+            <div class="fw-semibold text-navy">{{ b.full_name }}</div>
+            <div class="small text-muted">{{ b.email }} • {{ b.phone }}</div>
+            {% if b.social_username %}
+              <small class="text-gold">@{{ b.social_username|cut:"@" }}</small>
+            {% endif %}
+          </td>
+          <td>
+            <div class="fw-semibold">{{ b.appointment_date|date:"l, d M Y" }}</div>
+            <small class="text-muted">{{ b.appointment_time|time:"H:i" }} ({{ b.timezone }})</small>
+          </td>
+          <td>
+            <span class="small text-secondary">{{ b.enquiry_type }}</span>
+          </td>
+          <td>
+            <span class="badge rounded-pill bg-light text-dark border">
+              {{ b.attribution.platform|default:"Website"|capfirst }}
+            </span>
+            {% if b.attribution.campaign %}
+              <div class="small text-muted text-truncate" style="max-width: 120px;" title="{{ b.attribution.campaign }}">
+                {{ b.attribution.campaign }}
+              </div>
+            {% endif %}
+          </td>
+          <td>
+            {% if b.status == 'confirmed' %}
+              <span class="badge-confirmed">Confirmed</span>
+            {% elif b.status == 'pending_verification' %}
+              <span class="badge-pending">Awaiting Code</span>
+            {% elif b.status == 'rescheduled' %}
+              <span class="badge rounded-pill bg-info-subtle text-info-emphasis border">Rescheduled</span>
+            {% elif b.status == 'cancelled' %}
+              <span class="badge-cancelled">Cancelled</span>
+            {% else %}
+              <span class="badge-pending">{{ b.get_status_display }}</span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="d-flex gap-1">
+              <button type="button" class="btn btn-sm btn-outline-secondary py-1 px-2" onclick="viewBookingDetails({{ b.id }})">
+                Details
+              </button>
+              <button 
+                type="button" 
+                class="btn btn-sm btn-outline-primary py-1 px-2" 
+                onclick="openRescheduleModal({{ b.id }}, '{{ b.booking_reference }}', '{{ b.appointment_date|date:'Y-m-d' }}', '{{ b.appointment_time|time:'H:i' }}')"
+              >
+                Reschedule
+              </button>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="8" class="text-center py-5 text-muted">
+            No bookings found matching your filter criteria.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  {% if page_obj.has_other_pages %}
+  <div class="p-3 border-top d-flex justify-content-between align-items-center bg-light">
+    <small class="text-muted">
+      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }} ({{ page_obj.paginator.count }} total bookings)
+    </small>
+    <div class="btn-group btn-group-sm">
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}&q={{ search }}&status={{ status_filter }}&platform={{ platform_filter }}&date={{ date_filter }}" class="btn btn-outline-secondary">Previous</a>
+      {% endif %}
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}&q={{ search }}&status={{ status_filter }}&platform={{ platform_filter }}&date={{ date_filter }}" class="btn btn-outline-secondary">Next</a>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+
